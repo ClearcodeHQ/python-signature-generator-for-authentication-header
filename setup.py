@@ -9,4 +9,5 @@ setup(name='paypal_auth_headers',
       author="Piotr Szymanski",
       author_email="p.szymanski@bidpy.pl",
       url="https://github.com/eddwardo/python-signature-generator-for-authentication-header",
+      packages=['paypal_auth_header'],
 )
