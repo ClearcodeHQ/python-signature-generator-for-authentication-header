@@ -9,7 +9,7 @@ def getSignature(key, sigBase):
     if ((len(sigBase) == 0) | (len(key) == 0)):
         raise Exception('sigBase', 'isNull')
 
-    hashed = hmac.new(key, sigBase, hashlib.sha1)
+    hashed = hmac.new(str(key), str(sigBase), hashlib.sha1)
     outSig = base64.b64encode(hashed.digest())
     return outSig
 
@@ -65,13 +65,6 @@ def getAuthHeader(apiUser, apiPass, accessTok, secTok, httpMethod, scriptURI):
 
 
 def paypal_header(user, password, acc_token, sec_token, method, url):
-    apiUser = "apiuser_api1.paypal.com"
-    apiPass = "1234567890"
-    accessTok = "accessToken"
-    secTok = "tokenSecret"
-    httpMethod = "POST"
-    scriptURI = "https://api-3t.sandbox.paypal.com/nvp"
-
     timestamp, sig = getAuthHeader(user, password, acc_token, sec_token,
                                    method, url)
     return ",".join(['timestamp=%s' % timestamp,
