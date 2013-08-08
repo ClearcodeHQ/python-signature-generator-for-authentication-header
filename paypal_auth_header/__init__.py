@@ -22,7 +22,7 @@ def getEncodedString(sIn):
     exp = re.compile(r'([A-Za-z0-9_]+)')
 
     for c in sIn:
-        if (re.match(exp, c) == None):
+        if (re.match(exp, c) is None):
             sOut = sOut+"%"+hex(ord(c))[2:]
         elif (c == ' '):
             sOut = sOut+"+"
@@ -64,7 +64,7 @@ def getAuthHeader(apiUser, apiPass, accessTok, secTok, httpMethod, scriptURI):
     return (str(timeStamp), sigFinal)
 
 
-def example():
+def paypal_header(user, password, acc_token, sec_token, method, url):
     apiUser = "apiuser_api1.paypal.com"
     apiPass = "1234567890"
     accessTok = "accessToken"
@@ -72,10 +72,8 @@ def example():
     httpMethod = "POST"
     scriptURI = "https://api-3t.sandbox.paypal.com/nvp"
 
-    (timeStamp, sig) = getAuthHeader(apiUser, apiPass, accessTok, secTok,
-                                     httpMethod, scriptURI)
-    print(timeStamp, " ", sig)
-
-    print("X-PP-AUTHORIZATION=timestamp="+timeStamp +
-          ",token="+accessTok +
-          ",signature="+sig)
+    timestamp, sig = getAuthHeader(user, password, acc_token, sec_token,
+                                   method, url)
+    return ",".join(['timestamp=%s' % timestamp,
+                     'token=%s' % acc_token,
+                     'signature=%s' % sig])
